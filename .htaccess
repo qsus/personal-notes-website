@@ -1,0 +1,7 @@
+AuthType Basic
+AuthName "Notes"
+AuthUserFile "/root/personal-notes-website/passwords"
+Require valid-user
+<Files "passwords">
+	Require all denied
+</Files>

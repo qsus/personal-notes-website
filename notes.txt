@@ -1,0 +1,4 @@
+text notes will include
+newlines and all whitespace characters:
+	  	.
+but exclude any <b>other formatting</b> including <script>
