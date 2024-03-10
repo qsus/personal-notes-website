@@ -1,6 +1,6 @@
 AuthType Basic
 AuthName "Notes"
-AuthUserFile "/root/personal-notes-website/passwords"
+AuthUserFile "/web/personal-notes-website/passwords"
 Require valid-user
 
 # Deny access (to all files begining with)
