@@ -77,7 +77,7 @@
 			"><label for="showTxtCheckbox">Display notes</label></legend>
 			
 			<form id="notesTxtWrapper" style="display: none;">
-				<textarea id="notesTxtTextarea" autocomplete="off" oninput="autoGrow(this);"><?php echo htmlspecialchars(file_get_contents("notes.txt")); ?></textarea>
+				<textarea id="notesTxtTextarea" autocomplete="off" oninput="autoGrow(this);"><?php echo htmlspecialchars(file_get_contents('notes.txt')); ?></textarea>
 				<button id="saveBtn" onclick="save('notesTxt'); return false;">Save</button>
 			</form>
 		</fieldset>
@@ -100,7 +100,7 @@
 						autoGrow(document.getElementById('notesHtml'));
 					"><label for="showHtmlEditCheckbox">Edit HTML notes</label></legend>
 					<form id="notesHtmlEditForm" style="display: none;">
-						<textarea id="notesHtml" autocomplete="off" oninput="autoGrow(this)"><?php echo htmlspecialchars(file_get_contents("notes.html")); ?></textarea>
+						<textarea id="notesHtml" autocomplete="off" oninput="autoGrow(this)"><?php echo htmlspecialchars(file_get_contents('notes.html')); ?></textarea>
 						<button id="saveHtmlBtn" onclick="save('notesHtml'); return false;">Save</button>
 					</form>
 				</fieldset>
@@ -112,11 +112,15 @@
 			"><label for="showFilesCheckbox">Display files</label></legend>
 			<div id="filesWrapper" style="display: none;">
 				<p>
-					<?php
-						foreach ($uploads as $file) {
-							echo "<a href=\"uploads/$file\">$file</a><sup> <a href=\"uploads/$file\" download=\"\">Download</a></sup><br>";
-						}
-					?>
+					<?php foreach ($uploads as $file): ?>
+						<a href="uploads/<?= $file ?>">
+							<?= $file ?>
+						</a>
+						<sup>
+							<a href="uploads/<?= $file ?>" download="">Download</a>
+						</sup>
+						<br>
+					<?php endforeach ?>
 				</p>
 				
 				<h2>Upload file</h2>
