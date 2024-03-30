@@ -1,4 +1,6 @@
 <?php
+require_once "authenticate.php";
+
 header('Content-Type: application/json; charset=utf-8');
 
 $file = $_FILES["file"];
