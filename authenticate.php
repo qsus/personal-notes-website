@@ -1,18 +1,25 @@
 <?php
-	if (!isset($_SERVER['PHP_AUTH_USER'])) { // no credentials (first connection)
+	// load credentials
+	$formUser = $_SERVER['PHP_AUTH_USER'];
+	$formPass = $_SERVER['PHP_AUTH_PW'];
+	if (!isset($formUser)) { // no credentials (first connection)
 		header('HTTP/1.0 401 Unauthorized');
 		header('WWW-Authenticate: Basic realm="Notes"');
 		exit;
 	}
 
-	$user = $_SERVER['PHP_AUTH_USER'];
-	$pass = $_SERVER['PHP_AUTH_PW'];
-	
-	if ($user != "admin" || $pass != "admin") { // wrong credentials
+	// get user's password hash
+	require_once "dbConnection.php";
+	$stmt = $pdo->prepare("SELECT password FROM user WHERE user = ?");
+	$stmt->execute([$formUser]);
+	$user = $stmt->fetch();
+
+	// verify password
+	if (!password_verify($formPass, $user['password'])) { // wrong credentials
 		header('HTTP/1.0 401 Unauthorized');
 		header('WWW-Authenticate: Basic realm="Notes"');
 		exit;
 	}
-	
+
 	// correct credentials
 ?>
