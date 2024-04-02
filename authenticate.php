@@ -10,9 +10,16 @@
 
 	// get user's password hash
 	require_once "dbConnection.php";
-	$stmt = $pdo->prepare("SELECT password FROM user WHERE user = ?");
+	$stmt = $pdo->prepare("SELECT `password` FROM user WHERE user = ?");
 	$stmt->execute([$formUser]);
-	$user = $stmt->fetch();
+	$user = $stmt->fetch(); // fetch() returns false if no row is found
+
+	// check if user exists
+	if (!$user) { // user not found
+		header('HTTP/1.0 401 Unauthorized');
+		header('WWW-Authenticate: Basic realm="Notes"');
+		exit;
+	}
 
 	// verify password
 	if (!password_verify($formPass, $user['password'])) { // wrong credentials
