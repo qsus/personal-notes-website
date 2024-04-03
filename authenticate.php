@@ -10,8 +10,9 @@
 
 	// get user's password hash
 	require_once "dbConnection.php";
-	$stmt = $pdo->prepare("SELECT `password` FROM user WHERE user = ?");
-	$stmt->execute([$formUser]);
+	$stmt = $pdo->prepare("SELECT `password` FROM user WHERE user = :user");
+	$stmt->bindParam(':user', $formUser);
+	$stmt->execute();
 	$user = $stmt->fetch(); // fetch() returns false if no row is found
 
 	// check if user exists
