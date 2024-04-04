@@ -1,4 +1,3 @@
-<?php require_once "authenticate.php"; ?>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -114,6 +113,7 @@
 			<div id="filesWrapper" style="display: none;">
 				<p>
 					<?php foreach ($uploads as $file): ?>
+						<!-- TODO: fix downloading file -->
 						<a href="uploads/<?= $file ?>">
 							<?= $file ?>
 						</a>

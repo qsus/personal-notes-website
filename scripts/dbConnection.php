@@ -1,4 +1,4 @@
-<?php
+<?php // establish connection to database, otherwise exit
 
 try {
 	// connect to database (and set error mode)
