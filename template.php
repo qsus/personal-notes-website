@@ -133,5 +133,6 @@
 				</form>
 			</div>
 		</fieldset>
+		<a href="logout.php">Log out</a>
 	</body>
 </html>
