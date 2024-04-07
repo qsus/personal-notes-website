@@ -113,12 +113,12 @@
 			<div id="filesWrapper" style="display: none;">
 				<p>
 					<?php foreach ($uploads as $file): ?>
-						<!-- TODO: fix downloading file -->
-						<a href="uploads/<?= $file ?>">
+						<a href="download.php?file=<?= urlencode($file) ?>">
 							<?= $file ?>
 						</a>
 						<sup>
-							<a href="uploads/<?= $file ?>" download="">Download</a>
+							<!-- either &download=true or download attribute alone works -->
+							<a href="download.php?file=<?= urlencode($file) ?>&download=true" download>Download</a>
 						</sup>
 						<br>
 					<?php endforeach ?>
