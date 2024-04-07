@@ -1,6 +1,7 @@
 # unimportant folders
 /uploads/
-!/uploads/.git-keep
+!/uploads/notes.html
+!/uploads/notes.txt
 /logs/
 # sensitive files
 /passwords

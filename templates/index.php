@@ -77,7 +77,7 @@
 			"><label for="showTxtCheckbox">Display notes</label></legend>
 			
 			<form id="notesTxtWrapper" style="display: none;">
-				<textarea id="notesTxtTextarea" autocomplete="off" oninput="autoGrow(this);"><?php echo htmlspecialchars(file_get_contents('notes.txt')); ?></textarea>
+				<textarea id="notesTxtTextarea" autocomplete="off" oninput="autoGrow(this);"><?php echo htmlspecialchars(file_get_contents(__DIR__.'/../uploads/notes.txt')); ?></textarea>
 				<button id="saveBtn" onclick="save('notesTxt'); return false;">Save</button>
 			</form>
 		</fieldset>
@@ -91,7 +91,7 @@
 			"><label for="showHtmlCheckbox">Display HTML notes</label></legend>
 			
 			<div id="notesHtmlWrapper" style="display: none;">
-				<iframe id="notesHtmlContent" src="/notes.html" style="width: 100%; height: 20em; border: 1px dashed gray;" ></iframe>
+				<iframe id="notesHtmlContent" src="download.php?file=notes.html" style="width: 100%; height: 20em; border: 1px dashed gray;" ></iframe>
 
 				<!-- show editing form -->
 				<fieldset>
@@ -100,7 +100,7 @@
 						autoGrow(document.getElementById('notesHtml'));
 					"><label for="showHtmlEditCheckbox">Edit HTML notes</label></legend>
 					<form id="notesHtmlEditForm" style="display: none;">
-						<textarea id="notesHtml" autocomplete="off" oninput="autoGrow(this)"><?php echo htmlspecialchars(file_get_contents('notes.html')); ?></textarea>
+						<textarea id="notesHtml" autocomplete="off" oninput="autoGrow(this)"><?php echo htmlspecialchars(file_get_contents(__DIR__.'/../uploads/notes.html')); ?></textarea>
 						<button id="saveHtmlBtn" onclick="save('notesHtml'); return false;">Save</button>
 					</form>
 				</fieldset>
