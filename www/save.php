@@ -25,4 +25,3 @@ switch ($file) {
 		echo json_encode(["success" => false, "error" => "Unknown file."]);
 		return;
 }
-?>

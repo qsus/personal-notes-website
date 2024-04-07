@@ -22,4 +22,3 @@ if (move_uploaded_file($file["tmp_name"], $target)) {
 } else {
 	echo json_encode(["success" => false, "error" => "Could not upload file. move_uploaded_file() failed."]);
 }
-?>
