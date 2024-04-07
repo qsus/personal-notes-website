@@ -1,8 +1,10 @@
 # unimportant folders
-/uploads/
+/uploads/*
 !/uploads/notes.html
 !/uploads/notes.txt
-/logs/
+!/uploads/sample.png
+!/uploads/sample.svg
+/logs/*
 # sensitive files
 /passwords
 /notes.txt
