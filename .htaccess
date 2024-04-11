@@ -1,9 +1,1 @@
-AuthType Basic
-AuthName "Notes"
-AuthUserFile "/web/personal-notes-website/passwords"
-Require valid-user
-
-# Deny access (to all files begining with)
-RedirectMatch 404 /\.git
-RedirectMatch 404 /passwords
-# Allowed sites: save.php, upload.php, README.md, index.php, notes.txt, notes.html, uploads/
+Deny from all
