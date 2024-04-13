@@ -1,1 +1,8 @@
 Allow from all
+
+<IfModule mod_xsendfile.c>
+    <Files *.php>
+        XSendFile On
+        SetEnv MOD_X_SENDFILE_ENABLED 1
+    </Files>
+</IfModule>

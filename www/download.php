@@ -38,8 +38,9 @@ if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] == m
 }
 
 // send the file, using X-Sendfile if available
-if (function_exists('apache_get_modules') && in_array('mod_xsendfile', apache_get_modules())) {
+if (getenv('MOD_X_SENDFILE_ENABLED')) {
 	header('X-Sendfile: '.$filePath);
+	// some headers will get overriden by the X-Sendfile module
 	exit;
 } else {
 	// return the file and exit
