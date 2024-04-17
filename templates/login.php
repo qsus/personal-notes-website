@@ -5,6 +5,9 @@
 	</head>
 	<body>
 		<h1>Login</h1>
+		<?php if (isset($loginError)): ?>
+			<p><?= $loginError ?></p>
+		<?php endif; ?>
 		<form action="index.php" method="post">
 			<label for="user">Username:</label>
 			<input type="text" name="user" id="user" required>

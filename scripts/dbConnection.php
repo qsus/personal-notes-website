@@ -6,6 +6,7 @@ try {
 } catch (PDOException $e) { // connection failed
 	// error message
 	echo "Connecting to internal database failed.";
+	http_response_code(503);
 	// log exception
 	file_put_contents('log/exception.log', $e->getMessage() . "\n", FILE_APPEND);
 	exit;

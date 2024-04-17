@@ -1,5 +1,7 @@
 Allow from all
 
+Redirect 301 login.php /index.php
+
 <IfModule mod_xsendfile.c>
     <Files *.php>
         XSendFile On
