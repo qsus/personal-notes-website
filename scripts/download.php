@@ -8,12 +8,17 @@ require_once __DIR__."/../scripts/authenticate.php";
 //require_once __DIR__."/../scripts/fileLoader.php";
 //$uploads = uploadsList();
 
-if (!isset($_GET['file'])) {
+if (isset($_GET['file'])) { // if the file is passed as a query parameter
+	http_response_code(400);
+	$fileName = basename($_GET['file']);
+	exit;
+} else if (isset($_SERVER['REDIRECT_URL'])) { // if the file is passed as a path
+	$fileName = basename($_SERVER['REDIRECT_URL']); // this should be possible to improve
+} else {
 	http_response_code(400);
 	exit;
 }
 
-$fileName = basename($_GET['file']);
 $filePath = __DIR__."/../uploads/$fileName";
 $downloadName = $_GET['name'] ?? $fileName;
 $forceDownload = isset($_GET['download']) && $_GET['download'] != 'false';

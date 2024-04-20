@@ -8,3 +8,8 @@ Redirect 301 /login.php /index.php
         SetEnv MOD_X_SENDFILE_ENABLED 1
     </Files>
 </IfModule>
+
+
+# redirect /uploads/* to the index file
+RewriteEngine On
+RewriteRule ^uploads/(.*)$ index.php [L]

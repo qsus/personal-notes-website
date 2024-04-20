@@ -91,7 +91,7 @@
 			"><label for="showHtmlCheckbox">Display HTML notes</label></legend>
 			
 			<div id="notesHtmlWrapper" style="display: none;">
-				<iframe id="notesHtmlContent" src="download.php?file=notes.html" style="width: 100%; height: 20em; border: 1px dashed gray;" ></iframe>
+				<iframe id="notesHtmlContent" src="uploads/notes.html" style="width: 100%; height: 20em; border: 1px dashed gray;" ></iframe>
 
 				<!-- show editing form -->
 				<fieldset>
@@ -113,12 +113,12 @@
 			<div id="filesWrapper" style="display: none;">
 				<p>
 					<?php foreach ($uploads as $file): ?>
-						<a href="download.php?file=<?= urlencode($file) ?>">
+						<a href="uploads/<?= urlencode($file) ?>">
 							<?= $file ?>
 						</a>
 						<sup>
 							<!-- either &download=true or download attribute alone works -->
-							<a href="download.php?file=<?= urlencode($file) ?>&download=true" download>Download</a>
+							<a href="uploads/<?= urlencode($file) ?>&download=true" download>Download</a>
 						</sup>
 						<br>
 					<?php endforeach ?>
