@@ -17,47 +17,49 @@
 			}
 		</style>
 		<script>
-			function save(file) {
-				switch (file) {
+			function upload(type) { // both for uploading file and saving notes
+				var formData = new FormData();
+				switch (type) { // type
 					case "notesTxt":
+						// send as file
 						var data = document.getElementById("notesTxtTextarea").value;
+						var blob = new Blob([data], {type: "text/plain"});
+						formData.append("file", blob);
+						
+						// set constant filename and override
+						formData.append("filename", "notes.txt");
+						formData.append("override", true);
 						break;
+
 					case "notesHtml":
+						// send as file
 						var data = document.getElementById("notesHtml").value;
+						var blob = new Blob([data], {type: "text/html"});
+						formData.append("file", blob);
+
+						// set constant filename and override
+						formData.append("filename", "notes.html");
+						formData.append("override", true);
 						break;
 					default:
-						alert("Unknown file: " + file);
-						return;
+						// upload file
+						var file = document.getElementById("file").files[0];
+						formData.append("file", file);
+						
+						formData.append("filename", document.getElementById("filename").value);
+						formData.append("override", document.getElementById("override").checked);
+						var file = document.getElementById("file").files[0];
+						break;
 				}
-				var xhr = new XMLHttpRequest();
-				xhr.open("POST", "save.php", true);
-				xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-				xhr.onreadystatechange = function() {
-					if (xhr.readyState == 4 && xhr.status == 200) {
-						var json = JSON.parse(xhr.responseText);
-						if (!json.success)
-							alert("Error: " + json.error);
-						else
-							alert("Saved!");
-					}
-				};
-				xhr.send("file=" + file + "&data=" + encodeURIComponent(data));
-			}
-			function upload() {
-				var file = document.getElementById("file").files[0];
-				var formData = new FormData();
-				formData.append("file", file);
-				formData.append("filename", document.getElementById("filename").value);
-				formData.append("override", document.getElementById("override").checked);
+				
+				// send the request
 				var xhr = new XMLHttpRequest();
 				xhr.open("POST", "upload.php", true);
-				xhr.onreadystatechange = function() {
-					if (xhr.readyState == 4 && xhr.status == 200) {
-						var json = JSON.parse(xhr.responseText);
-						if (!json.success)
-							alert("Error: " + json.error);
-						else
-							alert("Uploaded!");
+				xhr.onload = function() {
+					if (xhr.status == 201) {
+						alert("Uploaded!");
+					} else if (xhr.responseText) {
+						alert("Server response: " + xhr.responseText);
 					}
 				};
 				xhr.send(formData);
@@ -78,7 +80,7 @@
 			
 			<form id="notesTxtWrapper" style="display: none;">
 				<textarea id="notesTxtTextarea" autocomplete="off" oninput="autoGrow(this);"><?php echo htmlspecialchars(file_get_contents(__DIR__.'/../uploads/notes.txt')); ?></textarea>
-				<button id="saveBtn" onclick="save('notesTxt'); return false;">Save</button>
+				<button id="saveBtn" onclick="upload('notesTxt'); return false;">Save</button>
 			</form>
 		</fieldset>
 		<fieldset>
@@ -101,7 +103,7 @@
 					"><label for="showHtmlEditCheckbox">Edit HTML notes</label></legend>
 					<form id="notesHtmlEditForm" style="display: none;">
 						<textarea id="notesHtml" autocomplete="off" oninput="autoGrow(this)"><?php echo htmlspecialchars(file_get_contents(__DIR__.'/../uploads/notes.html')); ?></textarea>
-						<button id="saveHtmlBtn" onclick="save('notesHtml'); return false;">Save</button>
+						<button id="saveHtmlBtn" onclick="upload('notesHtml'); return false;">Save</button>
 					</form>
 				</fieldset>
 			</div>

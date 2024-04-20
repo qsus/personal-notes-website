@@ -1,9 +1,15 @@
 <?php
 require_once __DIR__."/../scripts/authenticate.php";
 
-// if the request uri starts with /upload, serve the file using download.php
+// if the request uri starts with /uploads/, serve the file using download.php
 if (strpos($_SERVER['REDIRECT_URL'], "/uploads/") === 0) {
 	require __DIR__."/../scripts/download.php";
+	exit;
+}
+
+// if the request uri starts with upload.php, handle the upload
+if (strpos($_SERVER['REDIRECT_URL'], "/upload.php") === 0) {
+	require __DIR__."/../scripts/upload.php";
 	exit;
 }
 
