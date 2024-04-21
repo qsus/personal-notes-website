@@ -5,6 +5,7 @@
 !/uploads/sample.png
 !/uploads/sample.svg
 /logs/*
+/.idea/*
 # sensitive files
 /passwords
 /notes.txt
