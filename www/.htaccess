@@ -14,3 +14,4 @@ Redirect 301 /login.php /index.php
 RewriteEngine On
 RewriteRule ^uploads/(.*)$ index.php [L]
 RewriteRule ^upload.php index.php [L]
+RewriteRule ^logout.php index.php [L]
