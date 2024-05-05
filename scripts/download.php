@@ -28,15 +28,6 @@ if (!file_exists($filePath)) {
 	exit;
 }
 
-header('Content-Disposition: '.($forceDownload ? 'attachment' : 'inline').'; filename="'.$downloadName.'"');
-header('Content-Type: '.mime_content_type($filePath) ?? 'application/octet-stream');
-header('Content-Length: '.filesize($filePath));
-header('Accept-Ranges: bytes');
-// allow caching
-header('Cache-Control: public');
-header('Pragma: public');
-// check hash of the cached file
-header('ETag: '.md5_file($filePath));
 if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] == md5_file($filePath)) {
 	http_response_code(304);
 	exit;
@@ -48,6 +39,16 @@ if (getenv('MOD_X_SENDFILE_ENABLED')) {
 	// some headers will get overriden by the X-Sendfile module
 	exit;
 } else {
+	// send the file manually
+	header('Content-Disposition: '.($forceDownload ? 'attachment' : 'inline').'; filename="'.$downloadName.'"');
+	header('Content-Type: '.mime_content_type($filePath) ?? 'application/octet-stream');
+	header('Content-Length: '.filesize($filePath));
+	header('Accept-Ranges: bytes');
+	// allow caching
+	header('Cache-Control: public');
+	header('Pragma: public');
+	// check hash of the cached file
+	header('ETag: '.md5_file($filePath));
 	// return the file and exit
 	readfile($filePath);
 	exit;
