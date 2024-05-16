@@ -24,8 +24,7 @@ if (!$formUser || !$formPass) {
 }
 
 // get user's password hash
-require_once __DIR__."/dbConnection.php";
-$stmt = $pdo->prepare("SELECT `password` FROM `user` WHERE `user` = :user");
+$stmt = $container->get('pdo')->prepare("SELECT `password` FROM `user` WHERE `user` = :user");
 $stmt->bindParam(':user', $formUser);
 $stmt->execute();
 $user = $stmt->fetch(); // fetch() returns false if no row is found
