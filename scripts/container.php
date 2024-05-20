@@ -18,37 +18,30 @@ class Container
     
     public function getPDO(): PDO
     {
-        if (isset($this->pool["pdo"])) {
-            // if the service is already in the pool, return it
-            return $this->pool["pdo"];
-        } else {
-            // else create it in the pool and return it
+        // if the service is't in the pool yet, create it
+        if (!isset($this->pool["pdo"])) {
             $this->pool["pdo"] = new DbConnection();
-            return $this->pool["pdo"];
         }
+
+        // return the service
+        return $this->pool["pdo"];
     }
 
     public function getAuthenticator(): Authenticator
     {
-        if (isset($this->pool["authenticator"])) {
-            // if the service is already in the pool, return it
-            return $this->pool["authenticator"];
-        } else {
-            // else create it in the pool and return it
+        // if the service is't in the pool yet, create it
+        if (!isset($this->pool["authenticator"])) {
             $this->pool["authenticator"] = new Authenticator($this->getPDO());
-            return $this->pool["authenticator"];
         }
+
+        // return the service
+        return $this->pool["authenticator"];
     }
 
     public function get(string $name): mixed
     {
-        // use serviceMapper to find the method of the service to call
-        if (isset($this->serviceMapper[$name])) {
-            return $this->serviceMapper[$name]();
-        } else {
-            // throw exception if service doesn't exist in mapper
-            throw new NotFoundExceptionInterface();
-        }
+        // return the service using a function found in the serviceMapper
+        return $this->serviceMapper[$name] ?? throw new NotFoundExceptionInterface();
     }
 
     public function has($name)
