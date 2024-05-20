@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__."/../scripts/dbConnection.php";
+require_once __DIR__."/../scripts/authenticator.php";
 
 // create container
 class Container {
@@ -9,19 +10,31 @@ class Container {
 	
 	public function __construct() {
 		$this->serviceMapper = [
-			"db"  => $this->getDbConnection(...),
-			"pdo" => $this->getDbConnection(...),
+			"pdo" => $this->getPDO(...),
+			"PDO"  => $this->getPDO(...),
+			"authenticator" => $this->getAuthenticator(...),
 		];
 	}
 	
-	public function getDbConnection(): DbConnection {
-		if (isset($this->pool["db"])) {
+	public function getPDO(): PDO {
+		if (isset($this->pool["pdo"])) {
 			// if the service is already in the pool, return it
-			return $this->pool["db"];
+			return $this->pool["pdo"];
 		} else {
 			// else create it in the pool and return it
-			$this->pool["db"] = new DbConnection();
-			return $this->pool["db"];
+			$this->pool["pdo"] = new DbConnection();
+			return $this->pool["pdo"];
+		}
+	}
+
+	public function getAuthenticator(): Authenticator {
+		if (isset($this->pool["authenticator"])) {
+			// if the service is already in the pool, return it
+			return $this->pool["authenticator"];
+		} else {
+			// else create it in the pool and return it
+			$this->pool["authenticator"] = new Authenticator($this->getPDO());
+			return $this->pool["authenticator"];
 		}
 	}
 
@@ -41,8 +54,17 @@ class Container {
 	}
 }
 
-$container = new Container();
+// requestLogin function
+function requestLogin() {
+	http_response_code(401); // unauthorized
+	require __DIR__."/../templates/login.php";
+	exit;
+}
 
+$container = new Container();
+$authenticator = $container->get("authenticator");
+
+header("X-Authenticated: ".($authenticator)->isAuthenticated() ? "true" : "false");
 
 // get target from REQUEST_URI
 $target = explode("?", $_SERVER['REQUEST_URI'])[0];
@@ -57,14 +79,14 @@ if (strpos($target, "/logout.php") === 0) {
 
 // files from /uploads/
 if (strpos($target, "/uploads/") === 0) {
-	require_once __DIR__."/../scripts/authenticate.php";
+	if (!$authenticator->isAuthenticated()) requestLogin();
 	require __DIR__."/../scripts/download.php";
 	exit;
 }
 
 // upload.php
 if (strpos($target, "/upload.php") === 0) {
-	require_once __DIR__."/../scripts/authenticate.php";
+	if (!$authenticator->isAuthenticated()) requestLogin();
 	require __DIR__."/../scripts/upload.php";
 	exit;
 }
@@ -78,9 +100,16 @@ if (strpos($target, "/index.php") === 0) {
 	exit;
 }
 
+// favicon.ico
+if (strpos($target, "/favicon.ico") === 0) {
+	// not requiring authentication
+	http_response_code(200);
+	exit;
+}
+
 // /
 if ($target === "/") {
-	require_once __DIR__."/../scripts/authenticate.php";
+	if (!$authenticator->isAuthenticated()) requestLogin();
 	require __DIR__."/../scripts/fileLoader.php";
 	$uploads = uploadsList();
 	require __DIR__."/../templates/index.php";

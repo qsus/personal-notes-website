@@ -3,8 +3,6 @@
 // Content Type and Content Disposition
 // https://stackoverflow.com/questions/20508788/do-i-need-content-type-application-octet-stream-for-file-download#20509354
 
-require_once __DIR__."/../scripts/authenticate.php";
-
 //require_once __DIR__."/../scripts/fileLoader.php";
 //$uploads = uploadsList();
 
@@ -33,6 +31,7 @@ if (isset($_SERVER['HTTP_IF_NONE_MATCH']) && $_SERVER['HTTP_IF_NONE_MATCH'] == m
 	exit;
 }
 
+header('Content-Type: '.mime_content_type($filePath) ?? 'application/octet-stream');
 // send the file, using X-Sendfile if available
 if (getenv('MOD_X_SENDFILE_ENABLED')) {
 	header('X-Sendfile: '.$filePath);
@@ -41,7 +40,6 @@ if (getenv('MOD_X_SENDFILE_ENABLED')) {
 } else {
 	// send the file manually
 	header('Content-Disposition: '.($forceDownload ? 'attachment' : 'inline').'; filename="'.$downloadName.'"');
-	header('Content-Type: '.mime_content_type($filePath) ?? 'application/octet-stream');
 	header('Content-Length: '.filesize($filePath));
 	header('Accept-Ranges: bytes');
 	// allow caching
