@@ -1,5 +1,7 @@
 <?php // take query and download file; optionally force download and change name
 
+declare(strict_types=1);
+
 // Content Type and Content Disposition
 // https://stackoverflow.com/questions/20508788/do-i-need-content-type-application-octet-stream-for-file-download#20509354
 

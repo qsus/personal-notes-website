@@ -1,4 +1,5 @@
 <?php // check if the user is the user he claims to be; if yes, returns, if not, redirects to login.php
+
 declare(strict_types=1);
 
 session_start();

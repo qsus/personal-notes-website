@@ -1,5 +1,7 @@
 <?php // establish connection to database, otherwise exit
 
+declare(strict_types=1);
+
 class DbConnection extends PDO
 {
     public function __construct()
