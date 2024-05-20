@@ -6,11 +6,8 @@ session_start();
 
 class Authenticator
 {
-    private PDO $pdo;
-
-    public function __construct(PDO $pdo)
+    public function __construct(private PDO $pdo)
     {
-        $this->pdo = $pdo;
     }
 
     public function checkCredentials($user, $password): bool
@@ -59,13 +56,4 @@ class Authenticator
             return false;
         }
     }
-
-    /*public function authenticateOrRequestLogin(): void
-    {
-        if (!$this->isAuthenticated()) {
-            http_response_code(401); // unauthorized
-            require __DIR__."/../templates/login.php";
-            exit;
-        }
-    }*/
 }
