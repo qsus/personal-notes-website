@@ -41,7 +41,7 @@ class Container
     public function get(string $name): mixed
     {
         // return the service using a function found in the serviceMapper
-        return $this->serviceMapper[$name] ?? throw new NotFoundExceptionInterface();
+        return $this->serviceMapper[$name]() ?? throw new NotFoundExceptionInterface();
     }
 
     public function has($name)

@@ -16,7 +16,7 @@ function requestLogin() {
 $container = new Container();
 $authenticator = $container->get("authenticator");
 
-header("X-Authenticated: ".($authenticator)->isAuthenticated() ? "true" : "false");
+header("X-Authenticated: " . $authenticator->isAuthenticated() ? "true" : "false");
 
 // get target from REQUEST_URI
 $target = explode("?", $_SERVER['REQUEST_URI'])[0];
