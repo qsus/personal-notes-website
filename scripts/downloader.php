@@ -2,7 +2,8 @@
 
 declare(strict_types=1);
 
-class Downloader {
+class Downloader
+{
     // provide function to download a file and exit
     public function download(string $fileName, string $downloadName, bool $forceDownload): void
     {

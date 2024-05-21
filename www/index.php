@@ -47,7 +47,13 @@ if (strpos($target, "/uploads/") === 0) {
 // upload.php
 if (strpos($target, "/upload.php") === 0) {
     if (!$authenticator->isAuthenticated()) requestLogin();
-    require __DIR__."/../scripts/upload.php";
+
+    $file = $_FILES["file"];
+    // get filename from form if provided; use the original file name otherwise
+    $fileName = isset($_POST['filename']) && $_POST['filename'] !== "" ? $_POST['filename'] : $file["name"];
+    $fileName = basename($fileName); // prevent directory traversal attacks
+    $override = $_POST["override"] == "true";
+    $container->get("uploader")->upload($file, $fileName, $override);
     exit;
 }
 

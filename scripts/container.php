@@ -5,6 +5,8 @@ declare(strict_types=1);
 require_once __DIR__."/../scripts/dbConnection.php";
 require_once __DIR__."/../scripts/authenticator.php";
 require_once __DIR__."/../scripts/downloader.php";
+require_once __DIR__."/../scripts/uploader.php";
+
 
 class Container
 {
@@ -17,6 +19,7 @@ class Container
             "dbConnection" => $this->getDbConnection(...),
             "authenticator" => $this->getAuthenticator(...),
             "downloader" => $this->getDownloader(...),
+            "uploader" => $this->getUploader(...),
         ];
     }
     
@@ -51,6 +54,17 @@ class Container
 
         // return the service
         return $this->pool["downloader"];
+    }
+
+    public function getUploader(): Uploader
+    {
+        // if the service isn't in the pool yet, create it
+        if (!isset($this->pool["uploader"])) {
+            $this->pool["uploader"] = new Uploader();
+        }
+
+        // return the service
+        return $this->pool["uploader"];
     }
 
     public function get(string $name): mixed
