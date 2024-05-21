@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-require_once __DIR__."/../scripts/dbConnection.php";
-require_once __DIR__."/../scripts/authenticator.php";
-require_once __DIR__."/../scripts/downloader.php";
-require_once __DIR__."/../scripts/uploader.php";
+require_once __DIR__."/../scripts/DbConnection.php";
+require_once __DIR__."/../scripts/Authenticator.php";
+require_once __DIR__."/../scripts/Downloader.php";
+require_once __DIR__."/../scripts/Uploader.php";
 
 
 class Container

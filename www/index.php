@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-require_once __DIR__."/../scripts/container.php";
+require_once __DIR__."/../scripts/Container.php";
 
 session_start();
 
@@ -76,7 +76,7 @@ if (strpos($target, "/favicon.ico") === 0) {
 // /
 if ($target === "/") {
     if (!$authenticator->isAuthenticated()) requestLogin();
-    require __DIR__."/../scripts/fileLoader.php";
+    require __DIR__."/../scripts/FileLoader.php";
     $uploads = uploadsList();
     require __DIR__."/../templates/index.php";
     exit;

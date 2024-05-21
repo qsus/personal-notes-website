@@ -6,7 +6,7 @@ session_start();
 
 class Authenticator
 {
-    public function __construct(private dbConnection $dbConnection)
+    public function __construct(private DbConnection $dbConnection)
     {
     }
 
