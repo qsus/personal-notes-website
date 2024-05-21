@@ -9,10 +9,10 @@ class DbConnection
 
     // find the first (there should be only one) user with the given name
     // returns false or ['user' => '...', 'password' => '...']
-    public function findUser(string $user): array|bool
+    public function findUser(string $userName): array|bool
     {
-        $stmt = $this->getPDO()->prepare("SELECT `password` FROM `user` WHERE `user` = :user");
-        $stmt->bindParam(':user', $user);
+        $stmt = $this->getPDO()->prepare('SELECT `hash` FROM `user` WHERE `name` = :name');
+        $stmt->bindParam(':name', $userName);
         $stmt->execute();
         return $stmt->fetch(); // fetch() returns false if no row exists, or the first row
     }

@@ -19,7 +19,7 @@ class Authenticator
         if (!$user) return false;
 
         // verify password
-        return password_verify($password, $user['password']);
+        return password_verify($password, $user['hash']);
     }
 
     public function isAuthenticated(): bool
