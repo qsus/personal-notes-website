@@ -119,8 +119,8 @@
                             <?= $file ?>
                         </a>
                         <sup>
-                            <!-- either &download=true or download attribute alone works -->
-                            <a href="uploads/<?= urlencode($file) ?>&download=true" download>Download</a>
+                            <!-- either ?download=true or download attribute alone works -->
+                            <a href="uploads/<?= urlencode($file) ?>?download=true" download>Download</a>
                         </sup>
                         <br>
                     <?php endforeach ?>

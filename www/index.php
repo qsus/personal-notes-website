@@ -2,8 +2,6 @@
 
 declare(strict_types=1);
 
-require_once __DIR__."/../scripts/dbConnection.php";
-require_once __DIR__."/../scripts/authenticator.php";
 require_once __DIR__."/../scripts/container.php";
 
 // requestLogin function
@@ -32,7 +30,13 @@ if (strpos($target, "/logout.php") === 0) {
 // files from /uploads/
 if (strpos($target, "/uploads/") === 0) {
     if (!$authenticator->isAuthenticated()) requestLogin();
-    require __DIR__."/../scripts/download.php";
+
+    // prepare for download
+    $downloader = $container->get("downloader");
+    $fileName = basename($_GET['file'] ?? $target);
+    $downloadName = $_GET['name'] ?? $fileName;
+    $forceDownload = isset($_GET['download']) && $_GET['download'] != 'false';
+    $container->get("downloader")->download($fileName, $downloadName, $forceDownload);
     exit;
 }
 

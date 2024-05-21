@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+require_once __DIR__."/../scripts/dbConnection.php";
+require_once __DIR__."/../scripts/authenticator.php";
+require_once __DIR__."/../scripts/downloader.php";
+
 class Container
 {
     private array $pool = [];
@@ -12,6 +16,7 @@ class Container
         $this->serviceMapper = [
             "dbConnection" => $this->getDbConnection(...),
             "authenticator" => $this->getAuthenticator(...),
+            "downloader" => $this->getDownloader(...),
         ];
     }
     
@@ -35,6 +40,17 @@ class Container
 
         // return the service
         return $this->pool["authenticator"];
+    }
+
+    public function getDownloader(): Downloader
+    {
+        // if the service isn't in the pool yet, create it
+        if (!isset($this->pool["downloader"])) {
+            $this->pool["downloader"] = new Downloader();
+        }
+
+        // return the service
+        return $this->pool["downloader"];
     }
 
     public function get(string $name): mixed
