@@ -41,4 +41,9 @@ class Authenticator
             return false;
         }
     }
+
+    public function logout(): void
+    {
+        session_destroy();
+    }
 }

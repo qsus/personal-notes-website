@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 require_once __DIR__."/../scripts/container.php";
 
+session_start();
+
 // requestLogin function
 function requestLogin() {
     http_response_code(401); // unauthorized
@@ -23,7 +25,9 @@ $target = explode("?", $_SERVER['REQUEST_URI'])[0];
 // switch statement could be used, but it couldn't handle the /uploads/ folder
 // logout.php
 if (strpos($target, "/logout.php") === 0) {
-    require __DIR__."/../scripts/logout.php";
+    $authenticator->logout();
+    http_response_code(302);
+    header("Location: /");
     exit;
 }
 
