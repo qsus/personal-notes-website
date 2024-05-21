@@ -10,28 +10,27 @@ class Container
     public function __construct()
     {
         $this->serviceMapper = [
-            "pdo" => $this->getPDO(...),
-            "PDO"  => $this->getPDO(...),
+            "dbConnection" => $this->getDbConnection(...),
             "authenticator" => $this->getAuthenticator(...),
         ];
     }
     
-    public function getPDO(): PDO
+    public function getDbConnection(): DbConnection
     {
-        // if the service is't in the pool yet, create it
-        if (!isset($this->pool["pdo"])) {
-            $this->pool["pdo"] = new DbConnection();
+        // if the service isn't in the pool yet, create it
+        if (!isset($this->pool["dbConnection"])) {
+            $this->pool["dbConnection"] = new DbConnection();
         }
 
         // return the service
-        return $this->pool["pdo"];
+        return $this->pool["dbConnection"];
     }
 
     public function getAuthenticator(): Authenticator
     {
         // if the service is't in the pool yet, create it
         if (!isset($this->pool["authenticator"])) {
-            $this->pool["authenticator"] = new Authenticator($this->getPDO());
+            $this->pool["authenticator"] = new Authenticator($this->getDbConnection());
         }
 
         // return the service
@@ -47,6 +46,6 @@ class Container
     public function has($name)
     {
         // check if service exists in pool
-        return isset($this->pool["db"]);
+        return isset($this->pool[$name]);
     }
 }

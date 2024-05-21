@@ -6,29 +6,20 @@ session_start();
 
 class Authenticator
 {
-    public function __construct(private PDO $pdo)
+    public function __construct(private dbConnection $dbConnection)
     {
     }
 
-    public function checkCredentials($user, $password): bool
+    public function checkCredentials($userName, $password): bool
     {
-        // get user's password hash
-        $stmt = $this->pdo->prepare("SELECT `password` FROM `user` WHERE `user` = :user");
-        $stmt->bindParam(':user', $user);
-        $stmt->execute();
-        $user = $stmt->fetch(); // fetch() returns false if no row is found
+        // find user in database
+        $user = $this->dbConnection->findUser($userName);
 
         // check if user exists
-        if (!$user) { // user not found
-            return false;
-        }
+        if (!$user) return false;
 
         // verify password
-        if (password_verify($password, $user['password'])) { // correct credentials
-            return true;
-        } else { // incorrect credentials
-            return false;
-        }
+        return password_verify($password, $user['password']);
     }
 
     public function isAuthenticated(): bool
@@ -39,16 +30,10 @@ class Authenticator
             return true; // return inside an included file will pass control back to the calling script
         }
 
-        // load credentials
-        $formUser = $_POST['user'];
-        $formPass = $_POST['pass'];
-
         // check if user gave us username and password
-        if (!$formUser || !$formPass) {
-            return false;
-        }
+        if (!isset($_POST['user']) || !isset($_POST['pass'])) return false;
 
-        if ($this->checkCredentials($formUser, $formPass)) {
+        if ($this->checkCredentials($_POST['user'], $_POST['pass'])) {
             $_SESSION['authenticated'] = true; // save login
             session_regenerate_id(); // regenerate session id for security
             return true;
