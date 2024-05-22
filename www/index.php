@@ -4,18 +4,12 @@ declare(strict_types=1);
 
 require_once __DIR__."/../scripts/Container.php";
 
-session_start();
-
-// requestLogin function
-function requestLogin() {
-    http_response_code(401); // unauthorized
-    require __DIR__."/../templates/login.php";
-    exit;
-}
-
 $container = new Container();
-$authenticator = $container->get("authenticator");
+$app = $container->get("App");
+$app->run();
 
+exit;
+/*
 header("X-Authenticated: " . $authenticator->isAuthenticated() ? "true" : "false");
 
 // get target from REQUEST_URI
@@ -85,4 +79,4 @@ if ($target === "/") {
 // default
 http_response_code(404);
 header("Location: /");
-exit;
+exit;*/

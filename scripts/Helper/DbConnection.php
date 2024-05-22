@@ -7,16 +7,6 @@ class DbConnection
 {
     private $pdo = null;
 
-    // find the first (there should be only one) user with the given name
-    // returns false or ['user' => '...', 'password' => '...']
-    public function findUser(string $userName): array|bool
-    {
-        $stmt = $this->getPDO()->prepare('SELECT `hash` FROM `user` WHERE `name` = :name');
-        $stmt->bindParam(':name', $userName);
-        $stmt->execute();
-        return $stmt->fetch(); // fetch() returns false if no row exists, or the first row
-    }
-
     private function getPDO(): PDO
     {
         return $this->pdo ?? $this->createPDO();
@@ -35,5 +25,23 @@ class DbConnection
             file_put_contents('log/exception.log', $e->getMessage() . "\n", FILE_APPEND);
             exit;
         }
+    }
+
+    // find the first (there should be only one) user with the given name
+    // returns false or ['user' => '...', 'password' => '...']
+    public function findUser(string $userName): array|bool
+    {
+        $stmt = $this->getPDO()->prepare('SELECT `hash` FROM `user` WHERE `name` = :name');
+        $stmt->bindParam(':name', $userName);
+        $stmt->execute();
+        return $stmt->fetch(); // fetch() returns false if no row exists, or the first row
+    }
+
+    public function updateHash(string $userName, string $hash): void
+    {
+        $stmt = $this->getPDO()->prepare('UPDATE `user` SET `hash` = :hash WHERE `name` = :name');
+        $stmt->bindParam(':name', $userName);
+        $stmt->bindParam(':hash', $hash);
+        $stmt->execute();
     }
 }
