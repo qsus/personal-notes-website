@@ -7,5 +7,7 @@
             "App\\": "scripts/"
         }
     },
-    "require": {}
+    "require": {
+        "sentry/sentry": "^4.7"
+    }
 }
