@@ -20,3 +20,5 @@ This solution is under development and may contain bugs or security risks. Keylo
 	* Lockdown mode – one click to stop all access to the website untill manually modifying files on the server
 * Deleting files
 * Uploading folders
+## Other
+* Favicon downloaded from [icon-icons.com](https://icon-icons.com/icon/notepad-notes/22522), author [hopstarter](https://www.deviantart.com/hopstarter).

@@ -54,7 +54,7 @@
                 
                 // send the request
                 var xhr = new XMLHttpRequest();
-                xhr.open("POST", "upload.php", true);
+                xhr.open("POST", "upload", true);
                 xhr.onload = function() {
                     if (xhr.status == 201) {
                         alert("Uploaded!");
@@ -114,13 +114,13 @@
             "><label for="showFilesCheckbox">Display files</label></legend>
             <div id="filesWrapper" style="display: none;">
                 <p>
-                    <?php foreach ($uploads as $file): ?>
-                        <a href="uploads/<?= urlencode($file) ?>">
-                            <?= $file ?>
+                    <?php foreach ($uploadedFiles as $file): $name = $file->getFileName() ?>
+                        <a href="uploads/<?= urlencode($name) ?>">
+                            <?= $name ?>
                         </a>
                         <sup>
                             <!-- either ?download=true or download attribute alone works -->
-                            <a href="uploads/<?= urlencode($file) ?>?download=true" download>Download</a>
+                            <a href="uploads/<?= urlencode($name) ?>?download=true" download>Download</a>
                         </sup>
                         <br>
                     <?php endforeach ?>
@@ -135,6 +135,6 @@
                 </form>
             </div>
         </fieldset>
-        <a href="logout.php">Log out</a>
+        <a href="logout">Log out</a>
     </body>
 </html>

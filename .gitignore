@@ -4,6 +4,7 @@
 !/uploads/notes.txt
 !/uploads/sample.png
 !/uploads/sample.svg
+!/uploads/favicon.ico
 /logs/*
 /.idea/*
 # sensitive files

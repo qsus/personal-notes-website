@@ -20,7 +20,7 @@ require_once __DIR__."/../scripts/Controller/LogoutController.php";
 require_once __DIR__."/../scripts/Controller/DownloadController.php";
 require_once __DIR__."/../scripts/Controller/UploadController.php";
 require_once __DIR__."/../scripts/Controller/FaviconController.php";
-require_once __DIR__."/../scripts/Helper/FileManipulator.php";
+require_once __DIR__."/../scripts/Helper/File/FileManipulator.php";
 
 
 class Container
@@ -36,42 +36,87 @@ class Container
             //"ControllerAccessor" => $this->createControllerAccessor(...),
             "dbConnection" => $this->createDbConnection(...),
             "downloader" => $this->createDownloader(...),
-            "fileLoader" => $this->createFileLoader(...),
-            "ResponseResolver" => $this->createResponseResolver(...),
             "RequestFactory" => $this->createRequestFactory(...),
             "Router" => $this->createRouter(...),
             "session" => $this->createSession(...),
             "uploader" => $this->createUploader(...),
-            "Controllers" => $this->createControllers(...),
+            "IndexController" => $this->createIndexController(...),
+            "LoginController" => $this->createLoginController(...),
+            "LogoutController" => $this->createLogoutController(...),
+            "DownloadController" => $this->createDownloadController(...),
+            "UploadController" => $this->createUploadController(...),
+            "NotFoundController" => $this->createNotFoundController(...),
+            "FaviconController" => $this->createFaviconController(...),
             "FileManipulator" => $this->createFileManipulator(...),
+            "Controllers" => $this->createControllers(...),
         ];
     }
 
-    private function createControllers(): void
+    private function createControllers(): array
     {
-        $this->pool["Controllers"] = [
-            "IndexController" => new IndexController(
-                $this->get("authenticator"),
-            ),
-            "LoginController" => new LoginController(
-                $this->get("authenticator"),
-            ),
-            "LogoutController" => new LogoutController(
-                $this->get("authenticator"),
-            ),
-            "DownloadController" => new DownloadController(
-                $this->get("authenticator"),
-                $this->get("FileManipulator"),
-            ),
-            "UploadController" => new UploadController(
-                $this->get("authenticator"),
-                $this->get("FileManipulator"),
-            ),
-            "NotFoundController" => new NotFoundController(),
-            "FaviconController" => new FaviconController(),
+        return $this->pool["Controllers"] = [
+            "IndexController" => $this->get("IndexController"),
+            "LoginController" => $this->get("LoginController"),
+            "LogoutController" => $this->get("LogoutController"),
+            "DownloadController" => $this->get("DownloadController"),
+            "UploadController" => $this->get("UploadController"),
+            "NotFoundController" => $this->get("NotFoundController"),
+            "FaviconController" => $this->get("FaviconController"),
         ];
     }
     
+    private function createIndexController(): void
+    {
+        $this->pool["IndexController"] = new IndexController(
+            $this->get("authenticator"),
+            $this->get("FileManipulator"),
+            $this->get("LoginController"),
+        );
+    }
+
+    private function createLoginController(): void
+    {
+        $this->pool["LoginController"] = new LoginController(
+            $this->get("authenticator"),
+        );
+    }
+
+    private function createLogoutController(): void
+    {
+        $this->pool["LogoutController"] = new LogoutController(
+            $this->get("authenticator"),
+        );
+    }
+
+    private function createDownloadController(): void
+    {
+        $this->pool["DownloadController"] = new DownloadController(
+            $this->get("authenticator"),
+            $this->get("FileManipulator"),
+            $this->get("NotFoundController"),
+            $this->get("LoginController"),
+        );
+    }
+
+    private function createUploadController(): void
+    {
+        $this->pool["UploadController"] = new UploadController(
+            $this->get("authenticator"),
+            $this->get("FileManipulator"),
+            $this->get("LoginController"),
+        );
+    }
+
+    private function createNotFoundController(): void
+    {
+        $this->pool["NotFoundController"] = new NotFoundController();
+    }
+
+    private function createFaviconController(): void
+    {
+        $this->pool["FaviconController"] = new FaviconController();
+    }
+
     private function createApp(): void
     {
         $this->pool["App"] = new App(
@@ -111,16 +156,6 @@ class Container
         $this->pool["downloader"] = new Downloader();
     }
 
-    private function createFileLoader(): void
-    {
-        $this->pool["fileLoader"] = new FileLoader();
-    }
-    
-    private function createResponseResolver(): void
-    {
-        $this->pool["ResponseResolver"] = new ResponseResolver();
-    }
-
     private function createRequestFactory(): void
     {
         $this->pool["RequestFactory"] = new RequestFactory();
@@ -145,7 +180,8 @@ class Container
     {
         // throw error if the service is unknown
         if (!isset($this->creatorMapper[$name])) {
-            throw new NotFoundExceptionInterface();
+            //throw new NotFoundExceptionInterface();
+            throw new Exception("Service not found: $name");
         }
 
         // create the service if it isn't in the pool yet

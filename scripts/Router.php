@@ -18,9 +18,10 @@ class Router
         if ($uri == ['']) return "IndexController";
         if ($uri == ['logout']) return "LogoutController";
         if ($uri == ['favicon.ico']) return "FaviconController";
-        if ($uri[0] == ['download']) return "DownloadController";
-        if ($uri[0] == ['upload']) return "UploadController";
-
+        if ($uri[0] == 'uploads') return "DownloadController";
+        if ($uri[0] == 'download') return "DownloadController";
+        if ($uri[0] == 'upload') return "UploadController";
+        
         // unresolvable uri
         return "NotFoundController";
     }

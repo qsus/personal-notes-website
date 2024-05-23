@@ -14,7 +14,9 @@ class FaviconController extends Controller
 
     public function run(Request $request): Response
     {
-        $response = new FileResponse('favicon.ico');
+        $filePath = __DIR__ . '/../../uploads/favicon.ico';
+        $file = new File($filePath);
+        $response = new FileResponse($file);
         return $response;
     }
 }

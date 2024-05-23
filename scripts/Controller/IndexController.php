@@ -9,6 +9,8 @@ class IndexController extends Controller
 {
     public function __construct(
         private Authenticator $authenticator,
+        private FileManipulator $fileManipulator,
+        private LoginController $loginController,
     ) {
     }
 
@@ -16,13 +18,14 @@ class IndexController extends Controller
     {
         // if not authenticated, call login controller
         if (!$this->authenticator->isAuthenticated($request)) {
-            $response = new TemplateResponse('login');
-            return $response;
+            return $this->loginController->run($request);
         }
+
+        $files = $this->fileManipulator->getUploadedFiles();
         
         // if authenticated, continue
         $response = new TemplateResponse('index');
-        $response->addData(['uploads' => ['file1', 'file2']]);
+        $response->addData(['uploadedFiles' => $files]);
         return $response;
     }
 }

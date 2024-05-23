@@ -26,5 +26,22 @@ abstract class Response
         $this->statusCode = $statusCode;
     }
 
+    protected function sendHeaders(): void
+    {
+        // set status code
+        http_response_code($this->statusCode);
+
+        // set headers
+        foreach ($this->headers as $header) {
+            header($header);
+        }
+    }
+
     abstract public function send(): void;
+    /*
+    {
+        // send headers
+        $this->sendHeaders();
+    }
+    */
 }

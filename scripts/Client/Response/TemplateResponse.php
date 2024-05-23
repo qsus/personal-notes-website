@@ -16,13 +16,9 @@ class TemplateResponse extends Response
     {
         // set headers
         $this->setHeader('Content-Type: text/html');
-
+        
         // send headers
-        //foreach ($this->$headers as $header) {
-        //    header($header);
-        //}
-
-        //http_response_code($this->statusCode);
+        $this->sendHeaders();
 
         // make data available to the included template
         extract($this->data);

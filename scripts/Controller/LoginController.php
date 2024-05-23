@@ -10,7 +10,7 @@ class LoginController extends Controller
 
     public function run(Request $request): Response
     {
-        $response = new TemplateResponse('index');
+        $response = new TemplateResponse('login');
         return $response;
     }
 }
