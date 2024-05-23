@@ -7,7 +7,4 @@
 !/uploads/favicon.ico
 /logs/*
 /.idea/*
-# sensitive files
-/passwords
-/notes.txt
-/notes.html
+/vendor/

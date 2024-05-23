@@ -19,22 +19,7 @@ use App\Client\RequestFactory;
 use App\Router;
 use App\Client\Session;
 use App\Helper\File\FileManipulator;
-
-require_once __DIR__."/../scripts/Helper/DbConnection.php";
-require_once __DIR__."/../scripts/Helper/Authenticator.php";
-require_once __DIR__."/../scripts/Client/RequestFactory.php";
-require_once __DIR__."/../scripts/Router.php";
-require_once __DIR__."/../scripts/Client/Session.php";
-require_once __DIR__."/../scripts/App.php";
-require_once __DIR__."/../scripts/Controller/IndexController.php";
-require_once __DIR__."/../scripts/Controller/LoginController.php";
-require_once __DIR__."/../scripts/Controller/NotFoundController.php";
-require_once __DIR__."/../scripts/Controller/LogoutController.php";
-require_once __DIR__."/../scripts/Controller/DownloadController.php";
-require_once __DIR__."/../scripts/Controller/UploadController.php";
-require_once __DIR__."/../scripts/Controller/FaviconController.php";
-require_once __DIR__."/../scripts/Controller/ControllerAccessor.php";
-require_once __DIR__."/../scripts/Helper/File/FileManipulator.php";
+use Exception;
 
 class Container
 {

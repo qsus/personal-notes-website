@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Client\Response;
 
-require_once 'Response.php';
-
 class TextResponse extends Response
 {
     public function __construct(

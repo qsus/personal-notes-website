@@ -12,8 +12,6 @@ use App\Helper\Authenticator;
 use App\Helper\File\FileManipulator;
 use App\Controller\LoginController;
 
-require_once __DIR__ . '/../Client/Response/TemplateResponse.php';
-
 class IndexController extends Controller
 {
     public function __construct(

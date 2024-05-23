@@ -1,0 +1,11 @@
+{
+    "name": "qsus/notes",
+    "description": "Website for managing notes and saving files when I do not have access to my PC.",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "App\\": "scripts/"
+        }
+    },
+    "require": {}
+}

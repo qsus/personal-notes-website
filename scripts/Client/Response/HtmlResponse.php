@@ -6,8 +6,6 @@ namespace App\Client\Response;
 
 use App\Client\Response\Response;
 
-require_once 'Response.php';
-
 // unused at the moment
 class HtmlResponse extends Response
 {

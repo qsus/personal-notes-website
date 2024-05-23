@@ -6,8 +6,6 @@ namespace App\Client\Response;
 
 use App\Client\Response\Response;
 
-require_once 'Response.php';
-
 class TemplateResponse extends Response
 {    
     public function __construct(

@@ -12,8 +12,6 @@ use App\Helper\File\FileManipulator;
 use App\Controller\LoginController;
 use App\Client\Response\TextResponse;
 
-require_once __DIR__ . '/../Client/Response/TextResponse.php';
-
 class UploadController extends Controller
 {
     public function __construct(
