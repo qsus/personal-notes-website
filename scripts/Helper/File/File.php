@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace App\Helper\File;
+
 // File implementation should change. File should be generated
 // in a factory based on the file name, not the full path.
 // Or it can be extended by class UploadedFile, which will

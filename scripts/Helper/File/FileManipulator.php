@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+namespace App\Helper\File;
+
+use App\Helper\File\File;
+
 require_once __DIR__ . '/File.php';
 
 class FileManipulator

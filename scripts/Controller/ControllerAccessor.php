@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+namespace App\Controller;
+
+use App\Controller\Controller;
+
 class ControllerAccessor
 {
     public function __construct(

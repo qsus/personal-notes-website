@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+namespace App\Helper;
+
+use PDO;
+use PDOException;
+
 // handle requests to the database, but do not connect to the database until it is needed
 class DbConnection
 {

@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+namespace App;
+
+use App\Controller\ControllerAccessor;
+use App\Client\RequestFactory;
+use App\Router;
+
 class App
 {
     public function __construct(

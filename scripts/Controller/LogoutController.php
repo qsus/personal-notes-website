@@ -2,6 +2,14 @@
 
 declare(strict_types=1);
 
+namespace App\Controller;
+
+use App\Controller\Controller;
+use App\Client\Request;
+use App\Client\Response\Response;
+use App\Client\Response\TemplateResponse;
+use App\Helper\Authenticator;
+
 class LogoutController extends Controller
 {
     public function __construct(

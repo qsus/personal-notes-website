@@ -2,6 +2,10 @@
 
 declare(strict_types=1);
 
+namespace App\Client\Response;
+
+use App\Helper\File\File;
+
 require_once 'Response.php';
 
 class FileResponse extends Response

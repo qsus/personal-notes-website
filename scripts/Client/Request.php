@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+namespace App\Client;
+
 require_once __DIR__ . '/Session.php';
 
 class Request

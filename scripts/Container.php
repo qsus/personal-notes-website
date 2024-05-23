@@ -2,6 +2,24 @@
 
 declare(strict_types=1);
 
+namespace App;
+
+use App\Controller\IndexController;
+use App\Controller\LoginController;
+use App\Controller\LogoutController;
+use App\Controller\DownloadController;
+use App\Controller\UploadController;
+use App\Controller\NotFoundController;
+use App\Controller\FaviconController;
+use App\Controller\ControllerAccessor;
+use App\App;
+use App\Helper\DbConnection;
+use App\Helper\Authenticator;
+use App\Client\RequestFactory;
+use App\Router;
+use App\Client\Session;
+use App\Helper\File\FileManipulator;
+
 require_once __DIR__."/../scripts/Helper/DbConnection.php";
 require_once __DIR__."/../scripts/Helper/Authenticator.php";
 require_once __DIR__."/../scripts/Client/RequestFactory.php";
@@ -17,7 +35,6 @@ require_once __DIR__."/../scripts/Controller/UploadController.php";
 require_once __DIR__."/../scripts/Controller/FaviconController.php";
 require_once __DIR__."/../scripts/Controller/ControllerAccessor.php";
 require_once __DIR__."/../scripts/Helper/File/FileManipulator.php";
-
 
 class Container
 {

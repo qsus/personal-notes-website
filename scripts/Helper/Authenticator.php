@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+namespace App\Helper;
+
+use App\Client\Session;
+use App\Helper\DbConnection;
+
 class Authenticator
 {
     public function __construct(
