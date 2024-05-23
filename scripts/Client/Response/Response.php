@@ -37,11 +37,17 @@ abstract class Response
         }
     }
 
+    //abstract public function sendData(): void;
+    // TODO: children should implement sendData method
+    // that will allow send() method be defined here
     abstract public function send(): void;
     /*
     {
         // send headers
         $this->sendHeaders();
+
+        // send data
+        $this->sendData();
     }
     */
 }

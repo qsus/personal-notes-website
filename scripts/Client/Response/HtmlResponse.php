@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 require_once 'Response.php';
 
+// unused at the moment
 class HtmlResponse extends Response
 {
     public function __construct(
@@ -15,13 +16,6 @@ class HtmlResponse extends Response
     {
         // set headers
         $this->setHeader('Content-Type: text/html');
-
-        // send headers
-        /*foreach ($this->headers as $header) {
-            header($header);
-        }
-
-        http_response_code($this->statusCode);*/
 
         // include template file
         echo $this->content;
