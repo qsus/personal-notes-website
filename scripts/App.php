@@ -7,8 +7,8 @@ class App
     public function __construct(
         private RequestFactory $requestFactory, // returns Request instance
         private Router $router, // returns Controller name
-        //private ControllerAccessor $controllerAccessor, // returns Controller instance
-        private array $controllers,
+        private ControllerAccessor $controllerAccessor, // returns Controller instance
+        //private array $controllers,
         //private ResponseResolver $responseResolver, // returns Response instance
     ) {
     }
@@ -17,8 +17,8 @@ class App
     {
         $request = $this->requestFactory->create();
         $controllerName = $this->router->resolve($request->uri());
-        $controller = $this->controllers[$controllerName];
-        //$controller = $this->controllerAccessor->getControlerByName($controllerName);
+        //$controller = $this->controllers[$controllerName];
+        $controller = $this->controllerAccessor->getControlerByName($controllerName);
         $response = $controller->run($request);
         $response->send();
 
