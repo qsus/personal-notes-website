@@ -10,14 +10,13 @@ use App\Controller\LogoutController;
 use App\Controller\DownloadController;
 use App\Controller\UploadController;
 use App\Controller\NotFoundController;
-use App\Controller\FaviconController;
-use App\Controller\ControllerAccessor;
 use App\App;
 use App\Helper\DbConnection;
 use App\Helper\Authenticator;
 use App\Client\RequestFactory;
 use App\Router;
 use App\Client\Session;
+use App\Controller\ControllerRunner;
 use App\Helper\File\FileManipulator;
 use Exception;
 
@@ -31,7 +30,7 @@ class Container
         $this->creatorMapper = [
             "App" => $this->createApp(...),
             "Authenticator" => $this->createAuthenticator(...),
-            "ControllerAccessor" => $this->createControllerAccessor(...),
+            "ControllerRunner" => $this->createControllerRunner(...),
             "DbConnection" => $this->createDbConnection(...),
             "RequestFactory" => $this->createRequestFactory(...),
             "Router" => $this->createRouter(...),
@@ -42,7 +41,6 @@ class Container
             "DownloadController" => $this->createDownloadController(...),
             "UploadController" => $this->createUploadController(...),
             "NotFoundController" => $this->createNotFoundController(...),
-            "FaviconController" => $this->createFaviconController(...),
             "FileManipulator" => $this->createFileManipulator(...),
         ];
     }
@@ -94,17 +92,12 @@ class Container
         $this->pool["NotFoundController"] = new NotFoundController();
     }
 
-    private function createFaviconController(): void
-    {
-        $this->pool["FaviconController"] = new FaviconController();
-    }
-
     private function createApp(): void
     {
         $this->pool["App"] = new App(
             $this->get("RequestFactory"),
             $this->get("Router"),
-            $this->get("ControllerAccessor"),
+            $this->get("ControllerRunner"),
             //$this->get("Controllers"),
             //$this->get("ResponseResolver"),
         );
@@ -118,9 +111,9 @@ class Container
         );
     }
 
-    private function createControllerAccessor(): void
+    private function createControllerRunner(): void
     {
-        $this->pool["ControllerAccessor"] = new ControllerAccessor(
+        $this->pool["ControllerRunner"] = new ControllerRunner(
             // functions that return controllers
             [
                 "IndexController" => fn() => $this->get("IndexController"),

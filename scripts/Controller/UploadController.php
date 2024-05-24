@@ -9,15 +9,14 @@ use App\Client\Request;
 use App\Client\Response\Response;
 use App\Helper\Authenticator;
 use App\Helper\File\FileManipulator;
-use App\Controller\LoginController;
 use App\Client\Response\TextResponse;
+use App\Exception\NotLoggedInException;
 
 class UploadController extends Controller
 {
     public function __construct(
         private Authenticator $authenticator,
         private FileManipulator $fileManipulator,
-        private LoginController $loginController,
     ) {
     }
 
@@ -25,7 +24,7 @@ class UploadController extends Controller
     {
         // if not authenticated, call login controller
         if (!$this->authenticator->isAuthenticated($request)) {
-            return $this->loginController->run($request);
+            throw new NotLoggedInException();
         }
 
         $file = $request->getFiles()['file']; // get uploaded file

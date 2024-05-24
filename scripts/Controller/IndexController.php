@@ -10,14 +10,13 @@ use App\Client\Response\Response;
 use App\Client\Response\TemplateResponse;
 use App\Helper\Authenticator;
 use App\Helper\File\FileManipulator;
-use App\Controller\LoginController;
+use App\Exception\NotLoggedInException;
 
 class IndexController extends Controller
 {
     public function __construct(
         private Authenticator $authenticator,
         private FileManipulator $fileManipulator,
-        private LoginController $loginController,
     ) {
     }
 
@@ -25,7 +24,7 @@ class IndexController extends Controller
     {
         // if not authenticated, call login controller
         if (!$this->authenticator->isAuthenticated($request)) {
-            return $this->loginController->run($request);
+            throw new NotLoggedInException();
         }
 
         $files = $this->fileManipulator->getUploadedFiles();

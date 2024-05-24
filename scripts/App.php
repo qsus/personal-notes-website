@@ -6,16 +6,18 @@ namespace App;
 
 use App\Controller\ControllerAccessor;
 use App\Client\RequestFactory;
+use App\Controller\ControllerRunner;
 use App\Router;
+use Exception;
+use App\Exception\NotLoggedInException;
+use App\Exception\NotFoundException;
 
 class App
 {
     public function __construct(
         private RequestFactory $requestFactory, // returns Request instance
         private Router $router, // returns Controller name
-        private ControllerAccessor $controllerAccessor, // returns Controller instance
-        //private array $controllers,
-        //private ResponseResolver $responseResolver, // returns Response instance
+        private ControllerRunner $controllerRunner, // returns Response instance
     ) {
     }
 
@@ -23,19 +25,15 @@ class App
     {
         $request = $this->requestFactory->create();
         $controllerName = $this->router->resolve($request->uri());
-        //$controller = $this->controllers[$controllerName];
-        $controller = $this->controllerAccessor->getControlerByName($controllerName);
-        $response = $controller->run($request);
-        $response->send();
-
-        /*try {
-            $response = $controller->run($request, $this->responseResolver);
+        try {
+            $response = $this->controllerRunner->runController($controllerName, $request);
+        } catch (NotLoggedInException $e) {
+            $response = $this->controllerRunner->runController('LoginController', $request);
+        } catch (NotFoundException $e) {
+            $response = $this->controllerRunner->runController('NotFoundController', $request);
         } catch (Exception $e) {
-            $this->logger->log($e, LogLevel::ERROR);
-            $response = $this->responseResolver->createTextResponse();
-            $response->print('Error 500');
-            $response->setCode(ErrorCodes::S_500);
+            $response = $this->controllerRunner->runController('ErrorController', $request);
         }
-        $this->responseResolver->send($response);*/
+        $response->send();
     }
 }

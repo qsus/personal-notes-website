@@ -11,16 +11,14 @@ use App\Client\Response\FileResponse;
 use App\Helper\Authenticator;
 use App\Helper\File\File;
 use App\Helper\File\FileManipulator;
-use App\Controller\NotFoundController;
-use App\Controller\LoginController;
+use App\Exception\NotLoggedInException;
+use App\Exception\NotFoundException;
 
 class DownloadController extends Controller
 {
     public function __construct(
         private Authenticator $authenticator,
         private FileManipulator $fileManipulator,
-        private NotFoundController $notFoundController,
-        private LoginController $loginController,
     ) {
     }
 
@@ -28,7 +26,7 @@ class DownloadController extends Controller
     {
         // if not authenticated, call login controller
         if (!$this->authenticator->isAuthenticated($request)) {
-            return $this->loginController->run($request);
+            throw new NotLoggedInException();
         }
 
         // get file name from query or uri
@@ -39,7 +37,7 @@ class DownloadController extends Controller
         // check if file exists
 
         if (!file_exists($filePath)) {
-            return $this->notFoundController->run($request);
+            throw new NotFoundException();
         }
 
         // create file object
