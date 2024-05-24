@@ -9,16 +9,11 @@ class TextResponse extends Response
     public function __construct(
         private string $content,
     ) {
+        $this->setHeader('Content-Type: text/plain');
     }
 
-    public function send(): void
+    public function sendData(): void
     {
-        // set headers
-        $this->setHeader('Content-Type: text/plain');
-
-        // send headers
-        $this->sendHeaders();
-
         echo $this->content;
     }
 }

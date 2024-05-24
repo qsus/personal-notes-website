@@ -6,6 +6,7 @@ namespace App;
 
 use App\Client\RequestFactory;
 use App\Controller\ControllerRunner;
+use App\Exception\FileNotFoundException;
 use App\Router;
 use Exception;
 use App\Exception\NotLoggedInException;
@@ -29,6 +30,8 @@ class App
         } catch (NotLoggedInException $e) {
             $response = $this->controllerRunner->runController('LoginController', $request);
         } catch (NotFoundException $e) {
+            $response = $this->controllerRunner->runController('NotFoundController', $request);
+        } catch (FileNotFoundException $e) {
             $response = $this->controllerRunner->runController('NotFoundController', $request);
         } catch (Exception $e) {
             throw $e;

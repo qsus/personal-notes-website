@@ -7,21 +7,24 @@ namespace App\Client\Response;
 use App\Client\Response\Response;
 
 class TemplateResponse extends Response
-{    
+{
+    // array of variables to be available in the included template
+    private array $data = [];
+
     public function __construct(
         private string $templateName,
     ) {
+        $this->setHeader('Content-Type: text/html');
     }
 
-
-    public function send(): void
+    public function addData(array $data): void
     {
-        // set headers
-        $this->setHeader('Content-Type: text/html');
-        
-        // send headers
-        $this->sendHeaders();
+        // add data to the data array
+        $this->data = array_merge($this->data, $data);
+    }
 
+    protected function sendData(): void
+    {
         // make data available to the included template
         extract($this->data);
 

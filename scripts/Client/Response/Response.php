@@ -6,15 +6,12 @@ namespace App\Client\Response;
 
 abstract class Response
 {
+    // all responses have the same headers and status code interface,
+    // but implement sendData method differently - they may use
+    // constuctor or public method to set data
+
     private array $headers = [];
     private int $statusCode = 200;
-    protected array $data = [];
-
-    public function addData(array $data): void
-    {
-        // add data to data array
-        $this->data = array_merge($this->data, $data);
-    }
 
     public function setHeader(string $header): void
     {
@@ -28,28 +25,22 @@ abstract class Response
         $this->statusCode = $statusCode;
     }
 
-    protected function sendHeaders(): void
-    {
-        // set status code
-        http_response_code($this->statusCode);
-
-        // set headers
-        foreach ($this->headers as $header) {
-            header($header);
-        }
-    }
+    abstract protected function sendData(): void;
 
     //abstract public function sendData(): void;
     // TODO: children should implement sendData method
     // that will allow send() method be defined here
-    abstract public function send(): void;
-    /*
+    public function send(): void
     {
+        // send status code
+        http_response_code($this->statusCode);
+
         // send headers
-        $this->sendHeaders();
+        foreach ($this->headers as $header) {
+            header($header);
+        }
 
         // send data
         $this->sendData();
     }
-    */
 }
