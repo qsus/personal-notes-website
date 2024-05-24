@@ -17,7 +17,6 @@ use App\Client\RequestFactory;
 use App\Router;
 use App\Client\Session;
 use App\Controller\ControllerRunner;
-use App\Helper\File\FileManipulator;
 use Exception;
 
 class Container
@@ -41,7 +40,6 @@ class Container
             "DownloadController" => $this->createDownloadController(...),
             "UploadController" => $this->createUploadController(...),
             "NotFoundController" => $this->createNotFoundController(...),
-            "FileManipulator" => $this->createFileManipulator(...),
         ];
     }
     
@@ -49,8 +47,6 @@ class Container
     {
         $this->pool["IndexController"] = new IndexController(
             $this->get("Authenticator"),
-            $this->get("FileManipulator"),
-            $this->get("LoginController"),
         );
     }
 
@@ -72,9 +68,6 @@ class Container
     {
         $this->pool["DownloadController"] = new DownloadController(
             $this->get("Authenticator"),
-            $this->get("FileManipulator"),
-            $this->get("NotFoundController"),
-            $this->get("LoginController"),
         );
     }
 
@@ -82,8 +75,6 @@ class Container
     {
         $this->pool["UploadController"] = new UploadController(
             $this->get("Authenticator"),
-            $this->get("FileManipulator"),
-            $this->get("LoginController"),
         );
     }
 
@@ -98,8 +89,6 @@ class Container
             $this->get("RequestFactory"),
             $this->get("Router"),
             $this->get("ControllerRunner"),
-            //$this->get("Controllers"),
-            //$this->get("ResponseResolver"),
         );
     }
 
@@ -125,11 +114,6 @@ class Container
                 "FaviconController" => fn() => $this->get("FaviconController"),
             ],
         );
-    }
-
-    private function createFileManipulator(): void
-    {
-        $this->pool["FileManipulator"] = new FileManipulator();
     }
 
     private function createDbConnection(): void

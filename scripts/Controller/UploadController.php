@@ -8,15 +8,16 @@ use App\Controller\Controller;
 use App\Client\Request;
 use App\Client\Response\Response;
 use App\Helper\Authenticator;
-use App\Helper\File\FileManipulator;
+use App\Helper\UploadedFile;
 use App\Client\Response\TextResponse;
 use App\Exception\NotLoggedInException;
+use App\Exception\FileExistsException;
+use App\Exception\FileUploadException;
 
 class UploadController extends Controller
 {
     public function __construct(
         private Authenticator $authenticator,
-        private FileManipulator $fileManipulator,
     ) {
     }
 
@@ -27,25 +28,26 @@ class UploadController extends Controller
             throw new NotLoggedInException();
         }
 
+        if (!isset($request->getFiles()['file'])) {
+            $response = new TextResponse('Error: no file recieved.');
+            $response->setStatusCode(400);
+            return $response;
+        }
         $file = $request->getFiles()['file']; // get uploaded file
         $fileName = $request->query('filename') ?? $file['name']; // get file name from query or from uploaded file
         $fileName = basename($fileName); // use only the part after last / to prevent directory traversal attacks
-        echo $request->query('filename') === "";
         $override = $request->query('override') == 'true'; // get override flag from query
 
-        // check if file exists
-        if (!$override && $this->fileManipulator->fileExists($fileName)) {
-            $response = new TextResponse('Error: file already exists.');
-            $response->setStatusCode(409);
-            return $response;
-        }
-
-        // upload file
-        if ($this->fileManipulator->uploadFile($file, $fileName)) {
+        try {
+            UploadedFile::uploadFile($file, $fileName, $override);
             $response = new TextResponse('File uploaded.');
             $response->setStatusCode(201);
             return $response;
-        } else {
+        } catch (FileExistsException $e) {
+            $response = new TextResponse('Error: file already exists.');
+            $response->setStatusCode(409);
+            return $response;
+        } catch (FileUploadException $e) {
             $response = new TextResponse('Error: uploading file failed.');
             $response->setStatusCode(503);
             return $response;

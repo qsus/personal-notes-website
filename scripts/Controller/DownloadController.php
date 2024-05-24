@@ -8,17 +8,16 @@ use App\Controller\Controller;
 use App\Client\Request;
 use App\Client\Response\Response;
 use App\Client\Response\FileResponse;
+use App\Exception\FileNotFoundException;
 use App\Helper\Authenticator;
-use App\Helper\File\File;
-use App\Helper\File\FileManipulator;
 use App\Exception\NotLoggedInException;
 use App\Exception\NotFoundException;
+use App\Helper\UploadedFile;
 
 class DownloadController extends Controller
 {
     public function __construct(
         private Authenticator $authenticator,
-        private FileManipulator $fileManipulator,
     ) {
     }
 
@@ -32,16 +31,13 @@ class DownloadController extends Controller
         // get file name from query or uri
         $fileName = $request->query('file') ?? array_slice($request->uriSegments(), -1)[0];;
 
-        // get file path
-        $filePath = __DIR__ . "/../../uploads/$fileName";
-        // check if file exists
-
-        if (!file_exists($filePath)) {
+        // create file object
+        try {
+            $file = new UploadedFile($fileName);
+        } catch (FileNotFoundException $e) {
+            // if file is not found, throw 404
             throw new NotFoundException();
         }
-
-        // create file object
-        $file = new File($filePath);
 
         $forceDownload = $request->query('download') === 'true';
         $downloadName = $request->query('name') ?? $file->getFileName();

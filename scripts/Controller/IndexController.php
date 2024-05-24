@@ -9,14 +9,13 @@ use App\Client\Request;
 use App\Client\Response\Response;
 use App\Client\Response\TemplateResponse;
 use App\Helper\Authenticator;
-use App\Helper\File\FileManipulator;
 use App\Exception\NotLoggedInException;
+use App\Helper\UploadedFile;
 
 class IndexController extends Controller
 {
     public function __construct(
         private Authenticator $authenticator,
-        private FileManipulator $fileManipulator,
     ) {
     }
 
@@ -27,7 +26,7 @@ class IndexController extends Controller
             throw new NotLoggedInException();
         }
 
-        $files = $this->fileManipulator->getUploadedFiles();
+        $files = UploadedFile::getUploadedFiles();
         
         // if authenticated, continue
         $response = new TemplateResponse('index');

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Controller\ControllerAccessor;
 use App\Client\RequestFactory;
 use App\Controller\ControllerRunner;
 use App\Router;
@@ -32,7 +31,8 @@ class App
         } catch (NotFoundException $e) {
             $response = $this->controllerRunner->runController('NotFoundController', $request);
         } catch (Exception $e) {
-            $response = $this->controllerRunner->runController('ErrorController', $request);
+            throw $e;
+            //$response = $this->controllerRunner->runController('ErrorController', $request);
         }
         $response->send();
     }
