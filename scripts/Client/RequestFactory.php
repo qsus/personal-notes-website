@@ -10,6 +10,6 @@ class RequestFactory
 {
     public function create(): Request
     {
-        return new Request();
+        return new Request($_REQUEST, $_SERVER, $_FILES);
     }
 }

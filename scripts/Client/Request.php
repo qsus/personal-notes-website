@@ -6,18 +6,24 @@ namespace App\Client;
 
 class Request
 {
+    public function __construct(
+        private array $request,
+        private array $server,
+        private array $files,
+    ) {
+    }
 
     public function query(string $key): string|null
     {
         // return GET or POST value by key; never return empty string
-        $result = $_REQUEST[$key] ?? null;
+        $result = $this->request[$key] ?? null;
         return $result === '' ? null : $result;
     }
 
     public function uri(): string
     {
         // return request URI
-        return $_SERVER['REQUEST_URI'];
+        return $this->server['REQUEST_URI'];
     }
 
     public function uriSegments(): array
@@ -31,6 +37,6 @@ class Request
     public function getFiles(): array
     {
         // return array of uploaded files
-        return $_FILES;
+        return $this->files;
     }
 }
