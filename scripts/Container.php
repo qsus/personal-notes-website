@@ -10,6 +10,7 @@ use App\Client\RequestFactory;
 use App\Client\Session;
 use App\Helper\DbConnection;
 use App\Helper\Authenticator;
+use App\Helper\UploadedFileManipulator;
 use App\Exception\ServiceNotFoundException;
 
 use App\Controller\IndexController;
@@ -43,13 +44,20 @@ class Container implements ContainerInterface
             "DownloadController" => $this->createDownloadController(...),
             "UploadController" => $this->createUploadController(...),
             "NotFoundController" => $this->createNotFoundController(...),
+            "UploadedFileManipulator" => $this->createUploadedFileManipulator(...),
         ];
+    }
+
+    private function createUploadedFileManipulator(): void
+    {
+        $this->pool["UploadedFileManipulator"] = new UploadedFileManipulator();
     }
     
     private function createIndexController(): void
     {
         $this->pool["IndexController"] = new IndexController(
             $this->get("Authenticator"),
+            $this->get("UploadedFileManipulator"),
         );
     }
 
@@ -78,6 +86,7 @@ class Container implements ContainerInterface
     {
         $this->pool["UploadController"] = new UploadController(
             $this->get("Authenticator"),
+            $this->get("UploadedFileManipulator"),
         );
     }
 
@@ -114,7 +123,6 @@ class Container implements ContainerInterface
                 "DownloadController" => fn() => $this->get("DownloadController"),
                 "UploadController" => fn() => $this->get("UploadController"),
                 "NotFoundController" => fn() => $this->get("NotFoundController"),
-                "FaviconController" => fn() => $this->get("FaviconController"),
             ],
         );
     }

@@ -8,16 +8,17 @@ use App\Controller\Controller;
 use App\Client\Request;
 use App\Client\Response\Response;
 use App\Helper\Authenticator;
-use App\Helper\UploadedFile;
 use App\Client\Response\TextResponse;
 use App\Exception\NotLoggedInException;
 use App\Exception\FileExistsException;
 use App\Exception\FileUploadException;
+use App\Helper\UploadedFileManipulator;
 
 class UploadController extends Controller
 {
     public function __construct(
         private Authenticator $authenticator,
+        private UploadedFileManipulator $uploadedFileManipulator,
     ) {
     }
 
@@ -39,7 +40,7 @@ class UploadController extends Controller
         $override = $request->query('override') == 'true'; // get override flag from query
 
         try {
-            UploadedFile::uploadFile($file, $fileName, $override);
+            $this->uploadedFileManipulator->uploadFile($file, $fileName, $override);
             $response = new TextResponse('File uploaded.');
             $response->setStatusCode(201);
             return $response;
