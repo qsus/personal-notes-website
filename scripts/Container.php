@@ -17,7 +17,7 @@ use App\Client\RequestFactory;
 use App\Router;
 use App\Client\Session;
 use App\Controller\ControllerRunner;
-use Exception;
+use App\Exception\ServiceNotFoundException;
 
 class Container
 {
@@ -140,8 +140,7 @@ class Container
     {
         // throw error if the service is unknown
         if (!isset($this->creatorMapper[$name])) {
-            //throw new NotFoundExceptionInterface();
-            throw new Exception("Service not found: $name");
+            throw new ServiceNotFoundException($name);
         }
 
         // create the service if it isn't in the pool yet
@@ -155,7 +154,6 @@ class Container
 
     public function has($name)
     {
-        // check if service exists in pool
-        return isset($this->pool[$name]);
+        return isset($this->creatorMapper[$name]);
     }
 }
