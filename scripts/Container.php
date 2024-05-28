@@ -18,8 +18,9 @@ use App\Router;
 use App\Client\Session;
 use App\Controller\ControllerRunner;
 use App\Exception\ServiceNotFoundException;
+use Psr\Container\ContainerInterface;
 
-class Container
+class Container implements ContainerInterface
 {
     private array $pool = [];
     private array $creatorMapper = [];
@@ -152,7 +153,7 @@ class Container
         return $this->pool[$name];
     }
 
-    public function has($name)
+    public function has(string $name): bool
     {
         return isset($this->creatorMapper[$name]);
     }
