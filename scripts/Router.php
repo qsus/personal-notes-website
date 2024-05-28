@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App;
 
-// used in App
 class Router
 {
     public function resolve(string $uri): string // /a/b/c?d=e&f=g
@@ -17,7 +16,6 @@ class Router
         // resolve controller name
         if ($uri == ['']) return "IndexController";
         if ($uri == ['logout']) return "LogoutController";
-        if ($uri == ['favicon.ico']) return "FaviconController";
         if ($uri[0] == 'uploads') return "DownloadController";
         if ($uri[0] == 'download') return "DownloadController";
         if ($uri[0] == 'upload') return "UploadController";

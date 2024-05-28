@@ -15,7 +15,7 @@ use App\Exception\NotFoundException;
 class App
 {
     public function __construct(
-        private RequestFactory $requestFactory, // returns Request instance
+        private RequestFactory $requestFactory, // creates Request instance
         private Router $router, // returns Controller name
         private ControllerRunner $controllerRunner, // returns Response instance
     ) {
@@ -29,9 +29,7 @@ class App
             $response = $this->controllerRunner->runController($controllerName, $request);
         } catch (NotLoggedInException $e) {
             $response = $this->controllerRunner->runController('LoginController', $request);
-        } catch (NotFoundException $e) {
-            $response = $this->controllerRunner->runController('NotFoundController', $request);
-        } catch (FileNotFoundException $e) {
+        } catch (NotFoundException|FileNotFoundException $e) {
             $response = $this->controllerRunner->runController('NotFoundController', $request);
         } catch (Exception $e) {
             throw $e;

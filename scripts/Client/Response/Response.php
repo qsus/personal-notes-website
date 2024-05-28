@@ -27,9 +27,6 @@ abstract class Response
 
     abstract protected function sendData(): void;
 
-    //abstract public function sendData(): void;
-    // TODO: children should implement sendData method
-    // that will allow send() method be defined here
     public function send(): void
     {
         // send status code
