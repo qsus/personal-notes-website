@@ -4,20 +4,24 @@ declare(strict_types=1);
 
 namespace App;
 
-use App\Controller\IndexController;
-use App\Controller\LoginController;
-use App\Controller\LogoutController;
-use App\Controller\DownloadController;
-use App\Controller\UploadController;
-use App\Controller\NotFoundController;
-use App\App;
-use App\Helper\DbConnection;
-use App\Helper\Authenticator;
-use App\Client\RequestFactory;
-use App\Router;
-use App\Client\Session;
-use App\Controller\ControllerRunner;
-use App\Exception\ServiceNotFoundException;
+use App\{
+    App,
+    Router,
+    Helper\DbConnection,
+    Helper\Authenticator,
+    Client\RequestFactory,
+    Client\Session,
+    Exception\ServiceNotFoundException,
+};
+use App\Controller\{
+    IndexController,
+    LoginController,
+    LogoutController,
+    DownloadController,
+    UploadController,
+    NotFoundController,
+    ControllerRunner,
+};
 use Psr\Container\ContainerInterface;
 
 class Container implements ContainerInterface
