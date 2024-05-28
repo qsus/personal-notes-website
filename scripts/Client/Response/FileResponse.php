@@ -15,23 +15,23 @@ class FileResponse extends Response
         private bool $forceDownload = false,
     ) {
         // explanantion: https://stackoverflow.com/questions/20508788/do-i-need-content-type-application-octet-stream-for-file-download#20509354
-        $this->setHeader('Content-Type: ' . $this->uploadedFile->getMimeType());
+        $this->setHeader('Content-Type', $this->uploadedFile->getMimeType());
         $this->setHeader(
-            'Content-Disposition: ' .
+            'Content-Disposition',
             ($this->forceDownload ? 'attachment' : 'inline') . // force download or open in browser
             '; filename="' . $this->downloadName . '"' // download name
         );
 
         // use X-Sendfile if available
         if (getenv('MOD_X_SENDFILE_ENABLED')) {
-            $this->setHeader('X-Sendfile: ' . $this->uploadedFile->filePath);
+            $this->setHeader('X-Sendfile', $this->uploadedFile->filePath);
             return;
         } else {
-            $this->setHeader('Content-Length: ' . $this->uploadedFile->getFileSize());
-            //$this->setHeader('Accept-Ranges: bytes'); // not implemented
-            $this->setHeader('Cache-Control: public');
-            $this->setHeader('Pragma: public');
-            $this->setHeader('ETag: ' . $this->uploadedFile->getMD5Hash());
+            $this->setHeader('Content-Length', $this->uploadedFile->getFileSize());
+            //$this->setHeader('Accept-Ranges', 'bytes'); // not implemented
+            $this->setHeader('Cache-Control', 'public');
+            $this->setHeader('Pragma', 'public');
+            $this->setHeader('ETag', $this->uploadedFile->getMD5Hash());
         }
     }
 

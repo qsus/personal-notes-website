@@ -13,10 +13,10 @@ abstract class Response
     private array $headers = [];
     private int $statusCode = 200;
 
-    public function setHeader(string $header): void
+    public function setHeader(string $key, string|int $value): void
     {
-        // add header to headers array
-        $this->headers[] = $header;
+        // set header
+        $this->headers[$key] = $value;
     }
 
     public function setStatusCode(int $statusCode): void
@@ -33,8 +33,8 @@ abstract class Response
         http_response_code($this->statusCode);
 
         // send headers
-        foreach ($this->headers as $header) {
-            header($header);
+        foreach ($this->headers as $key => $value) {
+            header("$key: $value");
         }
 
         // send data

@@ -14,7 +14,7 @@ class TemplateResponse extends Response
     public function __construct(
         private string $templateName,
     ) {
-        $this->setHeader('Content-Type: text/html');
+        $this->setHeader('Content-Type', 'text/html');
     }
 
     public function addData(array $data): void
