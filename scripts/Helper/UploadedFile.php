@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Helper;
 
 use App\Exception\FileNotFoundException;
-use App\Exception\FileExistsException;
-use App\Exception\FileUploadException;
 
 class UploadedFile
 {

@@ -12,12 +12,13 @@ use App\Exception\FileNotFoundException;
 use App\Helper\Authenticator;
 use App\Exception\NotLoggedInException;
 use App\Exception\NotFoundException;
-use App\Helper\UploadedFile;
+use App\Helper\UploadedFileManipulator;
 
 class DownloadController extends Controller
 {
     public function __construct(
         private Authenticator $authenticator,
+        private UploadedFileManipulator $uploadedFileManipulator,
     ) {
     }
 
@@ -29,11 +30,11 @@ class DownloadController extends Controller
         }
 
         // get file name from query or uri
-        $fileName = $request->query('file') ?? array_slice($request->uriSegments(), -1)[0];;
+        $fileName = $request->requestedFileName();
 
         // create file object
         try {
-            $file = new UploadedFile($fileName);
+            $file = $this->uploadedFileManipulator->getUploadedFile($fileName);
         } catch (FileNotFoundException $e) {
             // if file is not found, throw 404
             throw new NotFoundException();

@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App;
 
+use Exception;
+use App\Router;
 use App\Client\RequestFactory;
 use App\Controller\ControllerRunner;
 use App\Exception\FileNotFoundException;
-use App\Router;
-use Exception;
 use App\Exception\NotLoggedInException;
 use App\Exception\NotFoundException;
 

@@ -43,4 +43,9 @@ class UploadedFileManipulator
         if (!move_uploaded_file($file["tmp_name"], $filePath))
             throw new FileUploadException("Uploading file $fileName failed.");
     }
+
+    public static function getUploadedFile(string $fileName): UploadedFile
+    {
+        return new UploadedFile($fileName);
+    }
 }

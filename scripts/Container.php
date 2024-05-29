@@ -79,6 +79,7 @@ class Container implements ContainerInterface
     {
         $this->pool["DownloadController"] = new DownloadController(
             $this->get("Authenticator"),
+            $this->get("UploadedFileManipulator"),
         );
     }
 

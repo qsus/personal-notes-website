@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Client;
 
+use App\Exception\FileNotUploadedException;
+
 class Request
 {
     public function __construct(
@@ -26,17 +28,28 @@ class Request
         return $this->server['REQUEST_URI'];
     }
 
-    public function uriSegments(): array
+    public function urlComponents(): array
     {
-        // return URI segments                           // /a/b/c?d=e&f=g
-        $uri = explode('?', $this->uri())[0];            // /a/b/c
-        $uri = trim($uri, '/');                          // a/b/c
-        return explode('/', $uri);                       // ['a', 'b', 'c']
+        return parse_url($this->uri());
+    }
+    
+    public function pathComponents(): array
+    {
+        $uriPath = $this->urlComponents()['path'];       // /a/b/c
+        $uriPath = trim($uriPath, '/');                  // a/b/c
+        return explode('/', $uriPath);                   // ['a', 'b', 'c']
     }
 
-    public function getFiles(): array
+    public function getUploadedFile(): array
     {
-        // return array of uploaded files
-        return $this->files;
+        $file = $this->files['file'] ?? throw new FileNotUploadedException();
+        $file['name'] = $this->query('filename') ?? $file['name'];
+        return $file;
+    }
+
+    public function requestedFileName(): string
+    {
+        // return name of uploaded file
+        return $this->query('file') ?? array_slice($this->pathComponents(), -1)[0];
     }
 }
