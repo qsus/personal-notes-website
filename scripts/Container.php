@@ -147,24 +147,24 @@ class Container implements ContainerInterface
         $this->pool["Session"] = new Session();
     }
 
-    public function get(string $name): mixed
+    public function get(string $id): mixed
     {
         // throw error if the service is unknown
-        if (!isset($this->creatorMapper[$name])) {
-            throw new ServiceNotFoundException($name);
+        if (!isset($this->creatorMapper[$id])) {
+            throw new ServiceNotFoundException($id);
         }
 
         // create the service if it isn't in the pool yet
-        if (!isset($this->pool[$name])) {
-            $this->creatorMapper[$name]();
+        if (!isset($this->pool[$id])) {
+            $this->creatorMapper[$id]();
         }
 
         // always return the service from the pool
-        return $this->pool[$name];
+        return $this->pool[$id];
     }
 
-    public function has(string $name): bool
+    public function has(string $id): bool
     {
-        return isset($this->creatorMapper[$name]);
+        return isset($this->creatorMapper[$id]);
     }
 }

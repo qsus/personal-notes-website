@@ -46,22 +46,24 @@ class Authenticator
     public function isAuthenticated($request): bool
     {
         // check if user is logged in
-        if ($this->session->get('authenticated')) return true;
-
-        // if not, check credentials
-        $authenticated = $this->checkCredentials($request->query('user'), $request->query('pass'));
-
-        // if credentials are correct, store authenticated status in session
-        if ($authenticated) {
-            $this->session->set('authenticated', true);
-            $this->session->regenerateSessionId(); // regenerate session id to prevent session fixation
-        }
-
-        return $authenticated;
+        return $this->session->get('authenticated') ?? false;
     }
 
     public function logout(): void
     {
         $this->session->set('authenticated', false);
+    }
+
+    public function tryLogin(?string $userName, ?string $password): bool
+    {
+        // if userName or password is null or zero length, return false
+        if ($userName === null || $password === null || $userName === "" || $password === "") return false;
+
+        $result = $this->checkCredentials($userName, $password);
+        if ($result) {
+            $this->session->set('authenticated', true);
+            $this->session->regenerateSessionId(); // regenerate session id to prevent session fixation
+        }
+        return $result;
     }
 }

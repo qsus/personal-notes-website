@@ -8,7 +8,7 @@
         <?php if (isset($loginError)): ?>
             <p><?= $loginError ?></p>
         <?php endif; ?>
-        <form action="/" method="post">
+        <form action="login" method="post">
             <label for="user">Username:</label>
             <input type="text" name="user" id="user" required>
             <br>

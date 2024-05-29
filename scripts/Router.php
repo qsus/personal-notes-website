@@ -15,6 +15,7 @@ class Router
             // note that dollar sign ensures that the uri ends with the pattern
             '/^$/' => "IndexController",
             '/^logout$/' => "LogoutController",
+            '/^login$/' => "LoginController",
             '/^uploads/' => "DownloadController",
             '/^download/' => "DownloadController",
             '/^upload/' => "UploadController",

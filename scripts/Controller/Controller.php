@@ -9,5 +9,5 @@ use App\Client\Response\Response;
 
 abstract class Controller
 {
-    abstract public function run(Request $r): Response;
+    abstract public function run(Request $request): Response;
 }
